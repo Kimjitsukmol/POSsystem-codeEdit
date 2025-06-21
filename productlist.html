@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            border: 0;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f0f0f0;
+            font-family: 'Prompt', sans-serif;
+        }
+
+        .productList {
+            border-radius: 1vw;
+            width: 80%;
+            height: auto;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            padding: 1.5vw;
+        }
+
+        table {
+            width: 80%;
+            margin: 1vw auto;
+            border-collapse: collapse;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        th {
+            font-weight: bold;
+            font-size: 2vw;
+        }
+
+        th,td {
+            border: 1px solid #A9A9A9;
+            text-align: left;
+            padding: 0.2vw;
+            font-size: 1.2vw;
+        }
+
+        tbody tr:nth-child(even) td {
+             background-color: #f7f9fc;
+        }
+
+        .Back {
+            position: absolute;
+            background-color: #6495ED;
+            padding: 0.2vw 0.5vw;
+            border-radius: 0.5vw;
+            font-size: 1.5vw;
+        }
+
+        .Back:hover {
+            cursor: pointer;
+            background-color:rgb(15, 82, 206) ;
+            color: #f0f0f0;
+        }
+        
+    </style>
+
+</head>
+<body>
+
+    <div class="productList">
+        <div class="Back" id="Back"> ⬅️กลับ</div>
+        <div class="productList-tabel">
+            <table>
+                <thead>
+                    <th>รหัสสินค้า</th>
+                    <th>ชื่อสินค้า</th>
+                    <th>ราคา</th>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+    <script>
+    const url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSqBOz0tlVSxOI5LO34IzqzvKla3tgIos1rmvjwcmp0xJrq0rCdeNQykGCinq0gM-6dJSS5DYQ-nMrj/pub?output=csv';
+
+    fetch(url)
+        .then(response => response.text())
+        .then(data => {
+            const rows = data.split('\n').slice(1); // ตัดหัวข้อออก
+
+            const table = document.querySelector('tbody');
+            table.innerHTML = ''; // clear ก่อน
+
+            rows.forEach(row => {
+                if (row.trim() === '') return; // skip บรรทัดว่าง
+
+                const columns = row.split(',');
+
+                const tr = document.createElement('tr');
+                columns.forEach(col => {
+                    const td = document.createElement('td');
+                    td.textContent = col;
+                    tr.appendChild(td);
+                });
+
+                table.appendChild(tr);
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching CSV:', error);
+        });
+
+        const BackBtn = document.getElementById("Back");
+        BackBtn.addEventListener("click" ,function() {
+            window.location.href = "index.html";
+        });
+</script>
+
+
+</body>
+</html>
