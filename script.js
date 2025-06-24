@@ -34,7 +34,8 @@ const products = [
     { name: "ไม้กวาดทางมะพร้าว", price: 40, img: "ไม้กวาดทางมะพร้าว.jpeg" },
     { name: "น้ำมัน 91,95", price: 40, img: "น้ำมัน 91,95.jpeg" },
     { name: "เตาถ่าน", price: 130, img: "เตาถ่าน.jpeg" },
-    { name: "ถ่านหุงต้ม", price: 20, img: "ถ่านหุงต้ม.jpeg" }
+    { name: "ถ่านหุงต้ม", price: 20, img: "ถ่านหุงต้ม.jpeg" },
+    { name: "หอม กระเทียม", price: 20, img: "หอมกระเทียม.png" }
 ];
 
 function renderProducts() {
