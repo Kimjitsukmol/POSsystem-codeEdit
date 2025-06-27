@@ -341,7 +341,7 @@ function addProductbox(price, name = "สินค้าอื่นๆ") {
         cart.splice(index, 1);
         mainbox.remove();
         updateSummary();
-        speak("ลบสินค้า");
+        // speak("ลบสินค้า");
         if (lastAddedProduct === productItem) {
             lastAddedProduct = null;
         }
