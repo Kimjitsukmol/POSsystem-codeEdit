@@ -189,7 +189,7 @@ document.addEventListener("keydown", function (event) {
 //---------------------Open to produceList.html----------------------------------
 const productList = document.getElementById("productList");
 productList.addEventListener("click", function () {
-    window.location.href = "productList.html";
+    // window.location.href = "productList.html";
 });
 
 //--------------------open pop up สรุปยอดขาย----------------------------------------
