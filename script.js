@@ -232,10 +232,28 @@ input.addEventListener("keydown", function (event) {
     const code = input.value.trim();
 
     if (code === "") {
-      // ... (เพิ่มจำนวนสินค้ารายการล่าสุด)
-      input.value = "";
-      return;
-    }
+  // กด Enter ตอนช่องรหัสว่าง -> เพิ่มจำนวนสินค้าของรายการล่าสุด
+  event.preventDefault(); // กันการส่งฟอร์มหรือผลข้างเคียง
+  if (lastAddedProduct) {
+    let currentQty = parseInt(lastAddedProduct.qtyInput.value, 10) || 1;
+    currentQty += 1;
+    lastAddedProduct.qtyInput.value = String(currentQty);
+
+    const total = lastAddedProduct.price * currentQty;
+    lastAddedProduct.totalValue.innerText = `${total.toFixed(0)} บาท`;
+
+    updateSummary();
+    speak(`${currentQty}`);  // พูดจำนวนล่าสุด (เช่น "2", "3", ...)
+  } else {
+    // ยังไม่มีสินค้าในตะกร้า กด Enter ว่างๆ ก็ไม่ต้องทำอะไร (หรือจะ speak("ไม่มี") ก็ได้)
+    // speak("ไม่มี");
+  }
+
+  // เคลียร์อินพุตและคงโฟกัสไว้ที่ช่องสแกน
+  input.value = "";
+  input.focus();
+  return;
+}
 
     // ⛔ กัน “0”, “00”, “000” ฯลฯ
     if (/^0+$/.test(code)) {
