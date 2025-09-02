@@ -999,6 +999,32 @@ function deleteHeldBill(id) {
 
 
 
+document.addEventListener('keydown', (e) => {
+  // ให้ทำงานเมื่อกด "/" หรือ NumpadDivide
+  if (e.code === 'NumpadDivide' || e.key === '/') {
+    // ถ้า popup ชำระเงินหรือ popup เพิ่มสินค้าเปิดอยู่ → ไม่รบกวน
+    const payOpen = window.getComputedStyle(paymentPopup).display !== 'none';
+    const newProdOpen = window.getComputedStyle(newProductPopup).display !== 'none';
+    if (payOpen || newProdOpen) return;
+
+    e.preventDefault();
+
+    // ใช้รายการล่าสุด (lastAddedProduct) เป็นเป้าหมายแก้ไข
+    const box = getBoxForItem(lastAddedProduct);
+    if (box) {
+      editItem(box);            // ← ใช้ฟังก์ชันเดิมของคุณ
+    } else {
+      speak?.('ไม่มีสินค้าให้แก้ไข');
+    }
+  }
+});
+
+
+
+
+
+
+
 
 
 
@@ -1434,4 +1460,15 @@ function updateProductInSheet(code, name, price) {
     body,
     mode: "no-cors"
   }).catch(err => console.error("❌ อัปเดตสินค้าไม่สำเร็จ:", err));
+}
+
+
+
+function getBoxForItem(item) {
+  if (!item) return null;
+  const boxes = addbox.querySelectorAll('.addProduct');
+  for (const box of boxes) {
+    if (box._productItem === item) return box;
+  }
+  return null;
 }
