@@ -18,23 +18,23 @@ const priceDisplay = document.querySelector(".price div:nth-child(2)");
 
 //-------สร้างรายการสินค้าแบบ icon -----------------------
 const products = [
-    { name: "น้ำดื่มสิงห์", price: 50, img: "น้ำสิงห์.jpeg" },
-    { name: "น้ำดื่มทิพย์", price: 48, img: "น้ำทิพย์.jpeg" },
-    { name: "น้ำดื่มเลิฟ", price: 29, img: "น้ำเลิฟ.jpeg" },
-    { name: "น้ำแข็ง", price: 10, img: "น้ำเเข็ง.jpeg" },
-    { name: "น้ำถังฟ้า", price: 25, img: "น้ำดื่มถังฟ้า.jpeg" },
-    { name: "ถ่านถังขาว", price: 15, img: "น้ำดื่มถังขาว.jpeg" },
-    { name: "ไข่เยี่ยวม้า", price: 9, img: "ไข่เยี่ยวม้า.jpeg" },
-    { name: "ไข่เค็ม", price: 8, img: "ไข่เค็ม.jpeg" },
-    { name: "ไข่ไก่", price: 5, img: "ไข่ไก่.jpeg" },
-    { name: "แก๊สถังใหญ่ 15 โล", price: 460, img: "แก๊ส 15 โล.jpeg" },
-    { name: "แก๊สถัง 9.5 โล", price: 310, img: "แก๊ส 10 โล.jpeg" },
-    { name: "แก๊สปิ๊กนิค", price: 180, img: "แก๊สปิ๊กนิค.jpeg" },
-    { name: "ไม้กวาด", price: 50, img: "ไม้กวาด.jpeg" },
-    { name: "ไม้กวาดทางมะพร้าว", price: 40, img: "ไม้กวาดทางมะพร้าว.jpeg" },
-    { name: "น้ำมัน 91,95", price: 40, img: "น้ำมัน 91,95.jpeg" },
-    { name: "เตาถ่าน", price: 130, img: "เตาถ่าน.jpeg" },
-    { name: "ถ่านหุงต้ม", price: 20, img: "ถ่านหุงต้ม.jpeg" },
+    { name: "น้ำดื่มสิงห์", price: 50, img: "น้ำดื่มสิงห์.png" },
+    { name: "น้ำดื่มทิพย์", price: 48, img: "น้ำทิพย์.png" },
+    { name: "น้ำดื่มเลิฟ", price: 29, img: "น้ำเลิฟ.png" },
+    { name: "น้ำแข็ง", price: 10, img: "น้ำเเข็ง.png" },
+    { name: "น้ำถังฟ้า", price: 25, img: "น้ำดื่มถังฟ้า.png" },
+    { name: "ถ่านถังขาว", price: 15, img: "น้ำดื่มถังขาว.png" },
+    { name: "ไข่เยี่ยวม้า", price: 9, img: "ไข่เยี่ยวม้า.png" },
+    { name: "ไข่เค็ม", price: 8, img: "ไข่เค็ม.png" },
+    { name: "ไข่ไก่", price: 5, img: "ไข่ไก่.png" },
+    { name: "แก๊สถังใหญ่ 15 โล", price: 460, img: "แก๊ส 15 โล.png" },
+    { name: "แก๊สถัง 9.5 โล", price: 310, img: "แก๊ส 10 โล.png" },
+    { name: "แก๊สปิ๊กนิค", price: 180, img: "แก๊สปิ๊กนิค.png" },
+    { name: "ไม้กวาด", price: 50, img: "ไม้กวาด.png" },
+    { name: "ไม้กวาดทางมะพร้าว", price: 40, img: "ไม้กวาดทางมะพร้าว.png" },
+    { name: "น้ำมัน 91,95", price: 40, img: "น้ำมัน 91,95.png" },
+    { name: "เตาถ่าน", price: 130, img: "เตาถ่าน.png" },
+    { name: "ถ่านหุงต้ม", price: 20, img: "ถ่านหุงต้ม.png" },
     { name: "หอม กระเทียม", price: 20, img: "หอมกระเทียม.png" }
 ];
 
@@ -290,40 +290,67 @@ input.addEventListener("keyup", function (event) {
 //-------------------ช่องใส่รหัสสินค้า--------------------------------------------
 
 //---------------กด + เพื่อเพิ่มจำนวนสินค้า----------------------------------
+//--------------- ลดจำนวนด้วย Backspace (เวอร์ชันแก้บั๊ก) ------------------
 let backspacePressed = false;
 
+function isTypingContext(el) {
+  if (!el) return false;
+  const tag = el.tagName;
+  const type = (el.type || '').toLowerCase();
+  const isInput = tag === 'INPUT' && !['button','submit','checkbox','radio','range','file','color','date','time','month','week'].includes(type);
+  return isInput || tag === 'TEXTAREA' || el.isContentEditable === true;
+}
+
 document.addEventListener("keydown", function (event) {
-    if (event.key === "Backspace" && !backspacePressed) {
-        backspacePressed = true;
+  if (event.key !== "Backspace" || backspacePressed) return;
 
-        if (lastAddedProduct) {
-            let currentQty = parseInt(lastAddedProduct.qtyInput.value);
+  // ไม่รบกวนตอน popup ใด ๆ เปิดอยู่
+  const payOpen = window.getComputedStyle(paymentPopup).display !== "none";
+  const newProdOpen = window.getComputedStyle(newProductPopup).display !== "none";
+  if (payOpen || newProdOpen) return;
 
-            if (currentQty > 1) {
-                event.preventDefault(); // ✅ ป้องกันลบใน input
-                document.activeElement.blur(); // ✅ ป้องกันพิมพ์
+  const ae = document.activeElement;
+  const typing = isTypingContext(ae);
+  const isScanInput = ae === input;
 
-                currentQty -= 1;
-                lastAddedProduct.qtyInput.value = currentQty;
-
-                const total = lastAddedProduct.price * currentQty;
-                lastAddedProduct.totalValue.innerText = `${total.toFixed(0)} บาท`;
-
-                updateSummary();
-                speak(`${currentQty}`);
-            }
-            // ❗ ถ้า currentQty == 1 → ไม่ preventDefault เพื่อให้ลบข้อความได้ตามปกติ
-        }
+  // ถ้ากำลังพิมพ์อยู่:
+  // - ถ้าเป็นช่องสแกนและ "มีตัวอักษรอยู่" ให้ Backspace ทำงานลบตามปกติ (return)
+  // - ถ้าเป็น input อื่น ๆ (เช่น cashInput, ช่องแก้ไขราคา/ชื่อ) ก็ให้ลบตามปกติ (return)
+  if (typing) {
+    if (!isScanInput || (isScanInput && input.value.length > 0)) {
+      return; // ปล่อยผ่าน ไม่ลดจำนวน
     }
+    // ถ้าเป็นช่องสแกนแต่ "ว่าง" → ถือว่าเป็นคีย์ลัด ลดจำนวนสินค้าได้
+  }
+
+  // ถึงตรงนี้แปลว่าเราจะใช้ Backspace เป็นคีย์ลัดลดจำนวน
+  backspacePressed = true;
+
+  if (lastAddedProduct) {
+    let currentQty = parseInt(lastAddedProduct.qtyInput.value, 10) || 1;
+
+    if (currentQty > 1) {
+      event.preventDefault();      // กันไม่ให้ไปลบในช่องอินพุต
+      document.activeElement.blur(); // กันคีย์ repeat ในบางบราวเซอร์
+
+      currentQty -= 1;
+      lastAddedProduct.qtyInput.value = String(currentQty);
+      const total = lastAddedProduct.price * currentQty;
+      lastAddedProduct.totalValue.innerText = `${total.toFixed(0)} บาท`;
+
+      updateSummary();
+      speak(`${currentQty}`);
+    }
+    // ถ้า currentQty === 1 → ไม่ preventDefault เพื่อให้ Backspace (ที่ช่องสแกนว่าง) ไม่มีผลอะไร
+  }
 });
 
 document.addEventListener("keyup", function (event) {
-    if (event.key === "Backspace") {
-        backspacePressed = false;
-    }
+  if (event.key === "Backspace") {
+    backspacePressed = false;
+  }
 });
-
-
+//---------------------------------------------------------------------------
 
 
 //---------------กด + เพื่อเพิ่มจำนวนสินค้า----------------------------------
