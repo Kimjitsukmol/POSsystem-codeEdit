@@ -30,8 +30,11 @@
             <div style="font-size: 3vw; text-align: end;">เงินทอน:</div>
             <div id="change-value">0 บาท</div>
         </div>
-        <div> 
-            <img src="QR.jpg" alt="" style="width: 60%; height: auto;">
+        <div>
+            <img src="QR.jpg" alt="" style="width: 40%; height: auto;">
+        </div>
+        <div style="text-align: center; font-size: 3vw; padding-top: 2vw; font-weight: bold;">
+             ขอบคุณลูกค้าที่มาอุดหนุนค่ะ
         </div>
 
     </div>
@@ -43,9 +46,9 @@
     <div class="detail">
         <div class="left">
             <div class="manu">
-                <div class="btnmanu" id="productList">รายการสินค้า</div>
                 <div class="btnmanu" id="SummarySales">สรุปยอดขาย</div>
                 <div class="btnmanu" id="receipt">ใบเสร็จ</div>
+                <div class="btnmanu" id="billhold">พักบิล</div>
             </div>
             <div class="search">
                 <input type="number" id="productInput" placeholder="🔍︎ รหัสสินค้า" style="width: 40%;">
@@ -141,6 +144,48 @@
         <h2 style="text-align:center;">🧾 ใบเสร็จย้อนหลัง</h2>
         <div id="receiptHistoryContent"></div>
     </div>
+
+
+
+
+
+
+
+    <!-- Popup: เพิ่มสินค้าที่ไม่มีในระบบ -->
+    <div id="newProductPopup" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%);
+    z-index:2000; background:white; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,.25); width:55vw; max-width:720px;
+    padding:24px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <div style="font-size:2.2vw; min-font-size:18px; font-weight:700;">เพิ่มสินค้าใหม่</div>
+            <button id="closeNewProductPopup"
+                style="font-size:1.6vw; min-font-size:14px; padding:6px 12px; border:none; border-radius:8px; background:#dc3545; color:#fff; cursor:pointer;">ปิด</button>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 2fr; gap:14px; align-items:center; margin-top:8px;">
+            <label style="font-size:1.6vw; min-font-size:14px;">รหัสสินค้า</label>
+            <input id="np-code" type="text" readonly tabindex="-1"
+                style="padding:10px; font-size:1.6vw; border:1px solid #ccc; border-radius:10px; background:#f4f6fa;">
+
+
+            <label style="font-size:1.6vw; min-font-size:14px;">ชื่อสินค้า (ไม่บังคับ)</label>
+            <input id="np-name" type="text" placeholder="ชื่อสินค้า (ว่างได้ → ตั้งเป็น ‘สินค้าอื่นๆ’)"
+                style="padding:10px; font-size:1.6vw; min-font-size:14px; border:1px solid #ccc; border-radius:10px;">
+
+            <label style="font-size:1.6vw; min-font-size:14px;">ราคา *</label>
+            <input id="np-price" type="number" min="0" step="1" placeholder="ใส่ราคา (บังคับ)"
+                style="padding:10px; font-size:1.6vw; min-font-size:14px; border:2px solid #0a8c08; border-radius:10px;">
+        </div>
+
+        <div style="display:flex; gap:12px; justify-content:flex-end; margin-top:18px;">
+            <button id="np-save"
+                style="padding:10px 16px; border:none; border-radius:10px; background:#0a8c08; color:#fff; cursor:pointer; font-size:1.6vw; min-font-size:14px;">บันทึก</button>
+        </div>
+
+        <div id="np-error" style="color:#dc3545; margin-top:10px; display:none; font-size:1.2vw; min-font-size:12px;">
+        </div>
+    </div>
+    <div id="modalBackdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:1500;">
+    </div>
+
 
 
 

@@ -328,3 +328,49 @@ img {
     object-fit: cover;
     
 }
+
+
+/* ---- New Product Popup (light styles, ส่วนหลักใช้ inline) ---- */
+#newProductPopup input:focus { outline: none; }
+#modalBackdrop { backdrop-filter: blur(2px); }
+
+
+
+
+/* ====== Held Bills Panel ====== */
+#heldPanel{
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  width: min(360px, 90vw);
+  max-height: 70vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 12px 28px rgba(0,0,0,.2);
+  z-index: 3000;
+  display: none;
+  font-family: inherit;
+}
+#heldPanel .heldPanel-header{
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 14px; font-weight: 700; border-bottom: 1px solid #eee;
+}
+#heldPanel #heldPanelClose{
+  border: none; background: #eee; width: 28px; height: 28px; border-radius: 6px; cursor: pointer;
+}
+#heldPanel .heldPanel-list{ padding: 10px 12px; display: grid; gap: 10px; }
+#heldPanel .heldPanel-empty{ padding: 16px; color: #999; text-align: center; }
+#heldPanel .heldItem{
+  display: flex; justify-content: space-between; align-items: center;
+  background: #f7f9fb; border: 1px solid #e7edf5; border-radius: 12px; padding: 10px 12px;
+}
+.heldItem-title{ font-weight: 700; }
+.heldItem-sub{ font-size: 12px; color: #666; }
+.heldItem-time{ font-size: 11px; color: #999; }
+.heldItem-actions button{
+  border: none; padding: 8px 10px; border-radius: 10px; cursor: pointer; margin-left: 6px;
+}
+.heldItem-actions button:hover{ filter: brightness(0.96); }
+.heldItem-actions .danger{ background: #ef4444; color: #fff; }
+.heldItem-actions button:not(.danger){ background: #0ea5e9; color: #fff; }
