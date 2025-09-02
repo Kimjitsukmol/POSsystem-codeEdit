@@ -226,60 +226,39 @@ let enterPressed = false; // 🔒 ตัวแปรล็อก
 
 // 👉 ส่วนกด Enter (keydown)
 input.addEventListener("keydown", function (event) {
-    if (event.key === "Enter" && !enterPressed) {
-        enterPressed = true; // ล็อกไว้จนกว่าจะปล่อย
+  if (event.key === "Enter" && !enterPressed) {
+    enterPressed = true;
 
-        const code = input.value.trim();
+    const code = input.value.trim();
 
-        if (code === "") {
-            if (lastAddedProduct) {
-                let currentQty = parseInt(lastAddedProduct.qtyInput.value);
-                currentQty += 1;
-                lastAddedProduct.qtyInput.value = currentQty;
-
-                const total = lastAddedProduct.price * currentQty;
-                lastAddedProduct.totalValue.innerText = `${total.toFixed(0)} บาท`;
-
-                updateSummary();
-                speak(`${currentQty}`);
-            } else {
-                // speak("กรุณาใส่สินค้าก่อน");
-            }
-            input.value = "";
-            return;
-        }
-
-        // const value = parseInt(code);
-        // const foundProduct = productData.find(p => p.code === code);
-
-        // if (foundProduct) {
-        //     addProductbox(foundProduct.price, foundProduct.name);
-        // } else {
-        //     speak("ไม่มี");
-        //     // code คือค่าที่คุณอ่านมาจากช่องสแกน เช่น const code = input.value.trim();
-        //     // ใช้ตัวแปรเดียวกับที่คุณเช็คหา foundProduct
-        //     openNewProductPopup(code);
-        // }
-
-        const value = Number(code);
-const foundProduct = productData.find(p => p.code === code);
-
-if (!Number.isNaN(value) && value >= 1 && value <= 9999) {
-  // กรณีคีย์ตัวเลข 1–9999 → เพิ่มสินค้าทันที (ชื่อดีฟอลต์ “สินค้าอื่นๆ”)
-  addProductbox(value);
-} else if (foundProduct) {
-  // เจอในฐาน → เพิ่มตามข้อมูล
-  addProductbox(foundProduct.price, foundProduct.name, foundProduct.code);
-} else {
-  // ไม่เจอ → พูดว่า “ไม่มี” แล้วเปิดป๊อปอัปเพิ่มสินค้าใหม่
-  speak("ไม่มี");
-  openNewProductPopup(code);
-}
-
-
-        input.value = "";
+    if (code === "") {
+      // ... (เพิ่มจำนวนสินค้ารายการล่าสุด)
+      input.value = "";
+      return;
     }
+
+    // ⛔ กัน “0”, “00”, “000” ฯลฯ
+    if (/^0+$/.test(code)) {
+      input.value = "";
+      return;
+    }
+
+    const value = Number(code);
+    const foundProduct = productData.find(p => p.code === code);
+
+    if (!Number.isNaN(value) && value >= 1 && value <= 9999) {
+      addProductbox(value);
+    } else if (foundProduct) {
+      addProductbox(foundProduct.price, foundProduct.name, foundProduct.code);
+    } else {
+      speak("ไม่มี");
+      openNewProductPopup(code);
+    }
+
+    input.value = "";
+  }
 });
+
 
 // 👉 ส่วนปล่อยปุ่ม Enter (keyup) → รีเซ็ตให้กดได้ใหม่
 input.addEventListener("keyup", function (event) {
