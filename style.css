@@ -50,11 +50,11 @@
     text-align: center;
     padding: 0;
     top: 15%; 
-    left: 20%;
+    left: 25%;
     transform: translateX(-50%); 
     z-index: 500;
     background-color: #f5f7ff;
-    width: 50vw;
+    width: 60vw;
     height: auto;
     border-radius: 3vw;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), 
