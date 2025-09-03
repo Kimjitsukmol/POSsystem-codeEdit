@@ -274,7 +274,8 @@ input:focus {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
     padding: 2% 5%;
     border-radius: 2vw;
-    background-color: #d5d7df;
+    background-color: #2f4ca4a1;
+    color: #ffffff;
 }
 
 .qty-input {
@@ -374,3 +375,4 @@ img {
 .heldItem-actions button:hover{ filter: brightness(0.96); }
 .heldItem-actions .danger{ background: #ef4444; color: #fff; }
 .heldItem-actions button:not(.danger){ background: #0ea5e9; color: #fff; }
+
