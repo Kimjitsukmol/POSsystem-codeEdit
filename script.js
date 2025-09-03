@@ -10,6 +10,8 @@ const paymantPriceValue = document.getElementById("paymant-price-value");
 const cashInput = document.getElementById("cashInput");
 const changeValue = document.getElementById("change-value");
 
+const changeunit = document.getElementById("change-unit-value");
+
 const input = document.getElementById("productInput");
 const addbox = document.getElementById("addProduct_box");
 
@@ -170,37 +172,37 @@ document.addEventListener("keydown", function (event) {
 
 //------------------กดปุ่ม+เพื่อเรียก pop up ชำระสินค้าขึ้นมา---------------------------------
 document.addEventListener("keydown", function (event) {
-    if (event.code === 'NumpadAdd') {
-        event.preventDefault();
+  if (event.code === 'NumpadAdd') {
+    event.preventDefault();
 
-        const popupDisplay = window.getComputedStyle(paymentPopup).display;
+    const opening = window.getComputedStyle(paymentPopup).display === "none";
+    paymentPopup.style.display = opening ? "block" : "none";
 
-        if (popupDisplay === "none") {
-            paymentPopup.style.display = "block";
-        } else {
-            paymentPopup.style.display = "none";
-        }
+    let totalQty = 0;
+    let totalPrice = 0;
 
-        let totalQty = 0;
-        let totalPrice = 0;
+    cart.forEach(item => {
+      const qty = parseInt(item.qtyInput.value) || 0;
+      totalQty += qty;
+      totalPrice += item.getTotal();
+    });
 
-        cart.forEach(item => {
-            const qty = parseInt(item.qtyInput.value);
-            totalQty += qty;
-            totalPrice += item.getTotal();
-        });
+    // ✅ แสดงว่างเมื่อค่าเป็น 0
+    paymantUnitValue.innerText  = totalQty  > 0 ? `${totalQty} รายการ`        : "";
+    paymantPriceValue.innerText = totalPrice > 0 ? `${totalPrice.toFixed(0)} บาท` : "";
 
-        paymantUnitValue.innerText = `${totalQty} รายการ`;
-        paymantPriceValue.innerText = `${totalPrice.toFixed(0)} บาท`;
+    // เคลียร์รับเงิน/เงินทอนทุกครั้งที่เปิด
+    cashInput.value = "";
+    changeValue.innerText = "";
 
-        cashInput.focus();
-        cashInput.value = "";
+    if (opening) cashInput.focus();
 
-        if (!isNaN(totalPrice) && totalPrice > 0) {
-            speak(`รวม${totalPrice} บาท`);
-        }
+    if (totalPrice > 0) {
+      speak(`รวม ${totalPrice} บาท`);
     }
+  }
 });
+
 //------------------กดปุ่ม+เพื่อเรียก pop up ชำระสินค้าขึ้นมา---------------------------------
 
 
@@ -548,7 +550,6 @@ function editItem(box){
 //------------------------คำนวณราคารวม--------------------------------------------------------------------------
 
 function updateSummary() {
-
     let totalQty = 0;
     let totalPrice = 0;
 
@@ -557,35 +558,57 @@ function updateSummary() {
         totalQty += qty;
         totalPrice += item.getTotal();
     });
-    unitDisplay.innerText = `${totalQty} รายการ`;
-    priceDisplay.innerText = `${totalPrice.toFixed(0)} บาท`;
+
+    // จำนวนสินค้า
+    if (totalQty > 0) {
+        unitDisplay.innerText = `${totalQty} รายการ`;
+    } else {
+        unitDisplay.innerText = ""; // ❌ ไม่โชว์ถ้าเป็น 0
+    }
+
+    // ราคารวม
+    if (totalPrice > 0) {
+        priceDisplay.innerText = `${totalPrice.toFixed(0)} บาท`;
+    } else {
+        priceDisplay.innerText = ""; // ❌ ไม่โชว์ถ้าเป็น 0
+    }
 }
+
 //------------------------คำนวณราคารวม--------------------------------------------------------------------------
 
 //-------------------------ใส่ยอดรับเงิน-----------------------------------------------------------------------
 
 cashInput.addEventListener("input", debounce(function () {
-    const cash = parseInt(cashInput.value);
+  const cash = parseInt(cashInput.value);
 
-    let totalPrice = 0;
-    cart.forEach(item => {
-        totalPrice += item.getTotal();
-    });
+  let totalPrice = 0;
+  cart.forEach(item => {
+    totalPrice += item.getTotal();
+  });
 
-    let change = 0;
-    if (!isNaN(cash)) {
-        change = cash - totalPrice;
-    }
+  let change = 0;
+  if (!isNaN(cash)) {
+    change = cash - totalPrice;
+  }
 
-    if (change < 0) {
-        change = 0;
-    }
+  // ไม่ให้ติดลบ
+  if (change < 0) change = 0;
 
+  // ✅ แสดงค่าว่างถ้าเงินทอนเป็น 0 หรือใส่เงินไม่ถูกต้อง
+  if (!isNaN(cash) && change > 0) {
+    changeunit.innerText = "เงินทอน";
     changeValue.innerText = `${change.toFixed(0)} บาท`;
-    if (!isNaN(cash) && cash > 0) {
-        speak(`รับเงิน ${cash} บาท เงินทอน ${change} บาท`);
-    }
+  } else {
+    changeValue.innerText = "";
+    changeunit.innerText = "";
+  }
+
+  // (คงพฤติกรรมพูดเหมือนเดิม)
+  if (!isNaN(cash) && cash > 0) {
+    speak(`รับเงิน ${cash} บาท เงินทอน ${change} บาท`);
+  }
 }, 500));
+
 
 //--------------------paymant-close-----------------------------------------------------------------
 const closeBtn = document.querySelector(".paymant-close");
@@ -597,25 +620,31 @@ closeBtn.addEventListener("click", function () {
 //----------------------ปุ่มกดชำระเงิน----------------------------------------------------------------------
 
 payButton.addEventListener("click", function () {
-    let totalQty = 0;
-    let totalPrice = 0;
+  let totalQty = 0;
+  let totalPrice = 0;
 
-    cart.forEach(item => {
-        const qty = parseInt(item.qtyInput.value);
-        totalQty += qty;
-        totalPrice += item.getTotal();
-    });
+  cart.forEach(item => {
+    const qty = parseInt(item.qtyInput.value) || 0;
+    totalQty += qty;
+    totalPrice += item.getTotal();
+  });
 
-    paymantUnitValue.innerText = `${totalQty} รายการ`;
-    paymantPriceValue.innerText = `${totalPrice.toFixed(0)} บาท`;
+  // ✅ ไม่แสดงถ้าเป็น 0
+  paymantUnitValue.innerText  = totalQty  > 0 ? `${totalQty} รายการ`         : "";
+  paymantPriceValue.innerText = totalPrice > 0 ? `${totalPrice.toFixed(0)} บาท` : "";
 
-    paymentPopup.style.display = "block";
+  paymentPopup.style.display = "block";
 
-    cashInput.focus();
-    if (!isNaN(totalPrice) && totalPrice > 0) {
-        speak(`รวม${totalPrice} บาท`);
-    }
+  cashInput.focus();
+  cashInput.value = "";
+  changeValue.innerText = "";
+  changeunit.innerText = "";
+
+  if (totalPrice > 0) {
+    speak(`รวม ${totalPrice} บาท`);
+  }
 });
+
 
 //----------------เคลียรหลังจากชำระเงิน--------------------------------------------------------------------------
 
@@ -624,7 +653,8 @@ clearAllBTN.addEventListener("click", function () {
     paymentPopup.style.display = "none";
 
     cashInput.value = "";
-    changeValue.innerText = `0 บาท`
+    changeValue.innerText = "";
+    changeunit.innerText = "";
 
     cart = [];
     addbox.innerHTML = "";
@@ -745,7 +775,8 @@ cashInput.addEventListener("keydown", function (event) {
         // เคลียร์ popup และ cart
         paymentPopup.style.display = "none";
         cashInput.value = "";
-        changeValue.innerText = `0 บาท`;
+        changeValue.innerText = "";
+        changeunit.innerText = "";
 
         cart = [];
         addbox.innerHTML = "";
