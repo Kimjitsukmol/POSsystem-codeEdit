@@ -47,19 +47,19 @@
 .paymant {
     display: none;
     position: fixed;
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);  /* จัดกึ่งกลางทั้ง X และ Y */
     text-align: center;
     padding: 0;
-    top: 15%; 
-    left: 30%;
-    transform: translateX(-50%); 
     z-index: 500;
     background-color: #f5f7ff;
     width: 56vw;
     height: auto;
     border-radius: 3vw;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15), 
-            0 6px 16px rgba(0, 0, 0, 0.1);
-    transition: top 0.3s ease; 
+                0 6px 16px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease; 
 }
 
 @media (max-width: 768px) {
@@ -375,5 +375,6 @@ img {
 .heldItem-actions button:hover{ filter: brightness(0.96); }
 .heldItem-actions .danger{ background: #ef4444; color: #fff; }
 .heldItem-actions button:not(.danger){ background: #0ea5e9; color: #fff; }
+
 
 
