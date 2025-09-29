@@ -26,7 +26,7 @@ const products = [
     { name: "น้ำแข็ง", price: 10, img: "น้ำเเข็ง.png" },
     { name: "น้ำถังฟ้า", price: 25, img: "น้ำดื่มถังฟ้า.png" },
     { name: "ถ่านถังขาว", price: 15, img: "น้ำดื่มถังขาว.png" },
-    { name: "ไข่เยี่ยวม้า", price: 9, img: "ไข่เยี่ยวม้า.png" },
+    { name: "ไข่เยี่ยวม้า", price: 8, img: "ไข่เยี่ยวม้า.png" },
     { name: "ไข่เค็ม", price: 8, img: "ไข่เค็ม.png" },
     { name: "ไข่ไก่", price: 5, img: "ไข่ไก่.png" },
     { name: "แก๊สถังใหญ่ 15 โล", price: 460, img: "แก๊ส 15 โล.png" },
@@ -1529,4 +1529,5 @@ function getBoxForItem(item) {
     if (box._productItem === item) return box;
   }
   return null;
+
 }
