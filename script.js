@@ -21,7 +21,7 @@ const priceDisplay = document.querySelector(".price div:nth-child(2)");
 //-------สร้างรายการสินค้าแบบ icon -----------------------
 const products = [
     { name: "น้ำดื่มสิงห์", price: 50, img: "น้ำดื่มสิงห์.png" },
-    { name: "น้ำดื่มทิพย์", price: 48, img: "น้ำทิพย์.png" },
+    { name: "น้ำดื่มทิพย์", price: 50, img: "น้ำทิพย์.png" },
     { name: "น้ำดื่มเลิฟ", price: 29, img: "น้ำเลิฟ.png" },
     { name: "น้ำแข็ง", price: 10, img: "น้ำเเข็ง.png" },
     { name: "น้ำถังฟ้า", price: 25, img: "น้ำดื่มถังฟ้า.png" },
