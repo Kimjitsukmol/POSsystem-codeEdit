@@ -16,7 +16,7 @@
         <div class="paymant-close">X</div>
         <div class="paymant-item">ชำระเงิน</div>
         <div class="paymant-input">
-            <input type="number" style="width: 30%; font-size: 1.4vw;" placeholder="💰 รับเงินสด" id="cashInput">
+            <input type="number" style="width: 30%; font-size: 1.4vw;" placeholder="💰 รับเงินสด" id="cashInput" inputmode="none">
         </div>
         <div class="paymant-unit">
 
@@ -55,7 +55,7 @@
                 <div class="btnmanu" id="billhold">พักบิล</div>
             </div>
             <div class="search">
-                <input type="number" id="productInput" placeholder="🔍︎ รหัสสินค้า" style="width: 40%;">
+                <input type="number" id="productInput" inputmode="none" placeholder="🔍︎ รหัสสินค้า" style="width: 40%;">
             </div>
 
             <div class="noncode-product">
@@ -120,6 +120,7 @@
         <div class="right">
             <div class="listproduct">
                 <div class="pay">💰ชำระสินค้า</div>
+                <div id="keypadToggle" onclick="toggleKeypad()">⌨️</div>
                 <div class="clearAll">🗑️ลบสินค้า</div>
             </div>
 
@@ -188,6 +189,26 @@
         </div>
     </div>
     <div id="modalBackdrop" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.35); z-index:1500;">
+    </div>
+
+    <!-- <div id="keypadToggle" onclick="toggleKeypad()">⌨️</div> -->
+
+    <div id="customKeypad" class="keypad-container" style="display:none;">
+        <div class="keypad-grid">
+            <button onclick="keypadPress('7')">7</button>
+            <button onclick="keypadPress('8')">8</button>
+            <button onclick="keypadPress('9')">9</button>
+            <button onclick="keypadPress('4')">4</button>
+            <button onclick="keypadPress('5')">5</button>
+            <button onclick="keypadPress('6')">6</button>
+            <button onclick="keypadPress('1')">1</button>
+            <button onclick="keypadPress('2')">2</button>
+            <button onclick="keypadPress('3')">3</button>
+            <button onclick="keypadPress('0')">0</button>
+            <button onclick="keypadPress('Backspace')" style="background:#ff9800; color:white;">⌫</button>
+            <button onclick="keypadAction('Enter')" style="background:#2196F3; color:white;">Enter</button>
+        </div>
+        <button onclick="keypadAction('Pay')" class="keypad-pay-btn">💰 คิดเงิน (Space)</button>
     </div>
 
 

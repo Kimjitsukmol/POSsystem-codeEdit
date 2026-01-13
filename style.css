@@ -378,3 +378,103 @@ img {
 
 
 
+/* ปุ่มเปิดปิด: ให้ลอยอยู่ตรงเส้นแบ่ง (Left 60% / Right 40%) */
+#keypadToggle {
+    
+    bottom: 20px;
+   
+   
+    color: white;
+    border-radius: 50%;
+   
+    font-size: 35px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    border: 3px solid #ffffff90;
+    transition: transform 0.2s;
+}
+#keypadToggle:active { transform: scale(0.9); }
+
+/* กล่องคีย์บอร์ด: บังคับกว้าง 40% เท่าฝั่งขวา */
+.keypad-container {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 40vw !important; /* บังคับความกว้างให้เท่าแถบขวา */
+    height: auto;
+    
+    background-color: #f5f7ff; /* สีเดียวกับพื้นหลังฝั่งขวา */
+    border-top: 5px solid #4169E1; /* เส้นสีน้ำเงินกั้นโซนชัดเจน */
+    border-left: 1px solid #ccc;
+    
+    padding: 15px;
+    z-index: 9998; /* อยู่ใต้ปุ่มเปิดปิดนิดนึง */
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -5px 30px rgba(0,0,0,0.2);
+    box-sizing: border-box; /* สำคัญ! ป้องกัน Padding ดันจนล้น */
+}
+
+/* หัวข้อคีย์บอร์ด */
+.keypad-header {
+    display: flex; 
+    justify-content: space-between; 
+    margin-bottom: 10px; 
+    color: #4169E1; 
+    font-weight: bold; 
+    font-size: 1.5vw;
+}
+
+/* ตารางปุ่ม */
+.keypad-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* แบ่ง 3 คอลัมน์เท่ากัน */
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+/* ดีไซน์ปุ่มกด */
+.keypad-grid button {
+    width: 100%; /* ยืดเต็มช่อง */
+    padding: 1.5vh 0; /* ความสูงปุ่มปรับตามจอ */
+    font-size: 2vw; /* ตัวเลขใหญ่ตามจอ */
+    border: none;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.1); /* เงาแบบปุ่มกด */
+    cursor: pointer;
+    color: #333;
+    font-weight: bold;
+    
+    /* เอฟเฟกต์ */
+    transition: all 0.1s;
+    position: relative; 
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* เอฟเฟกต์ตอนกดปุ่ม (เด้งและขยาย) */
+.keypad-grid button:active {
+    background: #e3f2fd;
+    transform: scale(1.1) translateY(4px); /* ขยายและยุบลง */
+    box-shadow: 0 0 0 rgba(0,0,0,0); /* เงาหายไปเหมือนถูกกด */
+    z-index: 100;
+    border: 2px solid #2196F3;
+}
+
+/* ปุ่มคิดเงิน (ยาวเต็ม) */
+.keypad-pay-btn {
+    width: 100%;
+    padding: 15px;
+    font-size: 2vw;
+    background: #0a8c08;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 0 #065f05;
+}
+.keypad-pay-btn:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}

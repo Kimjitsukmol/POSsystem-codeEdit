@@ -1531,3 +1531,92 @@ function getBoxForItem(item) {
   return null;
 
 }
+
+// --- ระบบ Keypad ---
+let activeKeypadInput = null; // ตัวแปรเก็บว่ากำลังพิมพ์ใส่ช่องไหน
+
+// ฟังก์ชันหา input ทั้งหมดแล้วปิดคีย์บอร์ดมือถือ
+function initKeypadSupport() {
+    const inputs = document.querySelectorAll('input[type="number"], input[type="text"]');
+    inputs.forEach(input => {
+        // สำคัญมาก: บรรทัดนี้จะบล็อคคีย์บอร์ดมือถือ
+        input.setAttribute('inputmode', 'none'); 
+        
+        // จำว่า user กดช่องไหนล่าสุด
+        input.addEventListener('focus', () => {
+            activeKeypadInput = input;
+        });
+        
+        // ถ้าคลิกที่ช่อง ให้เปิดคีย์บอร์ดเราขึ้นมาอัตโนมัติ (ถ้าต้องการ)
+        input.addEventListener('click', () => {
+            document.getElementById('customKeypad').style.display = 'block';
+        });
+    });
+}
+
+// เรียกใช้งานตอนโหลดหน้าเว็บ
+window.addEventListener('DOMContentLoaded', initKeypadSupport);
+// เรียกซ้ำทุก 2 วิ เผื่อมี popup สินค้าใหม่ที่สร้างทีหลัง
+setInterval(initKeypadSupport, 2000); 
+
+function toggleKeypad() {
+    const keypad = document.getElementById('customKeypad');
+    if (keypad.style.display === 'none') {
+        keypad.style.display = 'block';
+    } else {
+        keypad.style.display = 'none';
+    }
+}
+
+function keypadPress(key) {
+    if (!activeKeypadInput) {
+        // ถ้ายังไม่ได้เลือกช่อง ให้เลือกช่องรหัสสินค้าหลักเป็นค่าเริ่มต้น
+        activeKeypadInput = document.getElementById('productInput');
+        activeKeypadInput.focus();
+    }
+
+    if (key === 'Backspace') {
+        activeKeypadInput.value = activeKeypadInput.value.slice(0, -1);
+    } else {
+        activeKeypadInput.value += key;
+    }
+    
+    // Trigger event เพื่อให้ระบบรู้ว่าค่าเปลี่ยน (เผื่อมีฟังก์ชันคำนวณ)
+    activeKeypadInput.dispatchEvent(new Event('input', { bubbles: true }));
+}
+
+function keypadAction(action) {
+    if (action === 'Enter') {
+        if (activeKeypadInput) {
+            // 1. ส่งคำสั่ง "กดปุ่ม" (Keydown)
+            const downEvent = new KeyboardEvent('keydown', {
+                key: 'Enter',
+                code: 'Enter',
+                which: 13,
+                keyCode: 13,
+                bubbles: true
+            });
+            activeKeypadInput.dispatchEvent(downEvent);
+
+            // 2. ส่งคำสั่ง "ปล่อยปุ่ม" (Keyup) ตามหลังทันที
+            // (สำคัญมาก! เพื่อปลดล็อคตัวแปร enterPressed ในระบบเดิมของคุณ)
+            setTimeout(() => {
+                const upEvent = new KeyboardEvent('keyup', {
+                    key: 'Enter',
+                    code: 'Enter',
+                    which: 13,
+                    keyCode: 13,
+                    bubbles: true
+                });
+                activeKeypadInput.dispatchEvent(upEvent);
+            }, 50); // หน่วงเวลาเล็กน้อยให้เหมือนคนกดจริง
+        }
+    } else if (action === 'Pay') {
+        // จำลองปุ่ม + (NumpadAdd) สำหรับเปิดหน้าชำระเงิน
+        const event = new KeyboardEvent('keydown', {
+            code: 'NumpadAdd',
+            bubbles: true
+        });
+        document.dispatchEvent(event);
+    }
+}
