@@ -4,7 +4,10 @@
     box-sizing: border-box;
     font-family: 'Prompt', sans-serif;
 }
-
+input, button, textarea, select, div, span, a {
+    touch-action: manipulation;
+    -ms-touch-action: manipulation; /* สำหรับ IE/Edge เก่าๆ */
+}
 .head {
     display: flex;
     flex-wrap: wrap;
@@ -477,4 +480,5 @@ img {
 .keypad-pay-btn:active {
     transform: translateY(4px);
     box-shadow: none;
+
 }
