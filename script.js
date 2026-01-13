@@ -761,8 +761,8 @@ cashInput.addEventListener("keydown", function (event) {
         let receiptHistory = JSON.parse(localStorage.getItem("receiptHistory")) || [];
         receiptHistory.push(receiptData);
 
-        if (receiptHistory.length > 200) {
-            receiptHistory = receiptHistory.slice(receiptHistory.length - 200);
+        if (receiptHistory.length > 1000) {
+            receiptHistory = receiptHistory.slice(receiptHistory.length - 1000);
         }
 
         localStorage.setItem("receiptHistory", JSON.stringify(receiptHistory));
@@ -1619,4 +1619,5 @@ function keypadAction(action) {
         });
         document.dispatchEvent(event);
     }
+
 }
