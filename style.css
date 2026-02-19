@@ -400,7 +400,6 @@ img {
 
 /* กล่องคีย์บอร์ด: บังคับกว้าง 40% เท่าฝั่งขวา */
 .keypad-container {
-    display: none;
     position: fixed;
     bottom: 0;
     right: 0;
@@ -420,7 +419,7 @@ img {
 
 /* หัวข้อคีย์บอร์ด */
 .keypad-header {
-    display: flex; 
+    display: none; 
     justify-content: space-between; 
     margin-bottom: 10px; 
     color: #4169E1; 
@@ -483,5 +482,6 @@ img {
     box-shadow: none;
 
 }
+
 
 
