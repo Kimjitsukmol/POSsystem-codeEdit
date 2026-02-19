@@ -1522,15 +1522,15 @@ function updateProductInSheet(code, name, price) {
 
 
 
-// function getBoxForItem(item) {
-//   if (!item) return null;
-//   const boxes = addbox.querySelectorAll('.addProduct');
-//   for (const box of boxes) {
-//     if (box._productItem === item) return box;
-//   }
-//   return null;
+function getBoxForItem(item) {
+  if (!item) return null;
+  const boxes = addbox.querySelectorAll('.addProduct');
+  for (const box of boxes) {
+    if (box._productItem === item) return box;
+  }
+  return null;
 
-// }
+}
 
 // --- ระบบ Keypad ---
 let activeKeypadInput = null; // ตัวแปรเก็บว่ากำลังพิมพ์ใส่ช่องไหน
@@ -1621,6 +1621,7 @@ function keypadAction(action) {
     }
 
 }
+
 
 
 
