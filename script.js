@@ -1549,7 +1549,7 @@ function initKeypadSupport() {
         
         // ถ้าคลิกที่ช่อง ให้เปิดคีย์บอร์ดเราขึ้นมาอัตโนมัติ (ถ้าต้องการ)
         input.addEventListener('click', () => {
-            document.getElementById('customKeypad').style.display = 'block';
+            document.getElementById('customKeypad').style.display = 'none';
         });
     });
 }
@@ -1621,6 +1621,7 @@ function keypadAction(action) {
     }
 
 }
+
 
 
 
