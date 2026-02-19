@@ -385,7 +385,7 @@ img {
 #keypadToggle {
     
     bottom: 20px;
-   
+    display: none;
    
     color: white;
     border-radius: 50%;
@@ -482,3 +482,4 @@ img {
     box-shadow: none;
 
 }
+
