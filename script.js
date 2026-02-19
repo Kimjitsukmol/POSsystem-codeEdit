@@ -1562,7 +1562,7 @@ setInterval(initKeypadSupport, 2000);
 function toggleKeypad() {
     const keypad = document.getElementById('customKeypad');
     if (keypad.style.display === 'none') {
-        keypad.style.display = 'block';
+        keypad.style.display = 'none';
     } else {
         keypad.style.display = 'none';
     }
@@ -1621,4 +1621,5 @@ function keypadAction(action) {
     }
 
 }
+
 
