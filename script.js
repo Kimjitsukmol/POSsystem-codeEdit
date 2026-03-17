@@ -578,6 +578,8 @@ function updateSummary() {
 
 //-------------------------ใส่ยอดรับเงิน-----------------------------------------------------------------------
 
+//-------------------------ใส่ยอดรับเงิน-----------------------------------------------------------------------
+
 cashInput.addEventListener("input", debounce(function () {
   const cash = parseInt(cashInput.value);
 
@@ -603,10 +605,16 @@ cashInput.addEventListener("input", debounce(function () {
     changeunit.innerText = "";
   }
 
-  // (คงพฤติกรรมพูดเหมือนเดิม)
-  if (!isNaN(cash) && cash > 0) {
+  // ✅ แก้ไขเงื่อนไขการพูด: จะพูดก็ต่อเมื่อยอดรับเงิน "มากกว่า" ยอดรวม (มียอดเงินทอน) เท่านั้น
+  if (!isNaN(cash) && cash > totalPrice) {
     speak(`รับเงิน ${cash} บาท เงินทอน ${change} บาท`);
+  } 
+  // หากอยากให้พูดกรณีลูกค้าให้เงินมาพอดีเป๊ะ (ไม่บังคับ) สามารถลบคอมเมนต์ด้านล่างออกได้ครับ
+  /* else if (!isNaN(cash) && cash === totalPrice && totalPrice > 0) {
+    speak(`รับเงินพอดีค่ะ`);
   }
+  */
+
 }, 500));
 
 
